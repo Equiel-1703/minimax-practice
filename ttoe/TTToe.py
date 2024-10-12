@@ -24,11 +24,19 @@ class InvalidPosition(Exception):
 		super().__init__(self.message)
 
 class MMElement:
-	def __init__(self, coord, board: np.ndarray, mm:int = -(sys.maxsize - 1)) -> None:
+	def __init__(self, coord, board: np.ndarray) -> None:
 		self.coord = coord
 		self.board = board
-		self.mm = mm
+		self.is_mm_set = False
+		self.__mm: int = -(sys.maxsize - 1)
 	
+	def set_mm(self, mm: int):
+		self.__mm = mm
+		self.is_mm_set = True
+	
+	def get_mm(self):
+		return self.__mm
+
 	def check_game_over(el):
 		board = el.board
 		free_slots = 0
@@ -138,7 +146,7 @@ class TTToe:
 
 		if debug:
 			for pre, _, content in anytree.RenderTree(tree):
-				print(f"{pre}{TTToe.board_to_line_str(content.name.board)} Coord: {content.name.coord} Score: {int(content.name.mm)}")
+				print(f"{pre}{TTToe.board_to_line_str(content.name.board)} Coord: {content.name.coord} Score: {int(content.name.get_mm()) if content.name.is_mm_set else "uncalc"}")
 
 		return coord
 	

@@ -15,7 +15,7 @@ def minimax(root: Node, score_func, check_game_over_func, is_max=True):
 	if len(root.children) == 0 or check_game_over_func(root.name):
 		score = score_func(root.name)
 		
-		root.name.mm = score
+		root.name.set_mm(score)
 
 		return (score, root.name.coord)
 	
@@ -26,13 +26,14 @@ def minimax(root: Node, score_func, check_game_over_func, is_max=True):
 		for c in root.children:
 			temp = int(minimax(c, score_func, check_game_over_func, is_max=False)[0])
 			
-			c.name.mm = temp
+			c.name.set_mm(temp)
 
 			if temp > max_val:
 				max_val = temp
 				max_val_coord = c.name.coord
 		
-		root.name.mm = max_val
+		root.name.set_mm(max_val)
+
 
 		return (max_val, max_val_coord)
 	else:
@@ -42,12 +43,12 @@ def minimax(root: Node, score_func, check_game_over_func, is_max=True):
 		for c in root.children:
 			temp = int(minimax(c, score_func, check_game_over_func, is_max=True)[0])
 
-			c.name.mm = temp
+			c.name.set_mm(temp)
 
 			if temp < min_val:
 				min_val = temp
 				min_val_coord = c.name.coord
 		
-		root.name.mm = min_val
+		root.name.set_mm(min_val)
 
 		return (min_val, min_val_coord)
