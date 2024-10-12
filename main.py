@@ -1,6 +1,12 @@
 from ttoe.TTToe import TTToe
 
 import re
+import os
+
+# Check if the user is using Windows or not
+if os.name == "nt":
+	# If the OS is Windows, we must enable colors in the terminal
+	os.system("color")
 
 x_turn = True
 
@@ -11,9 +17,11 @@ while(True):
 		print("Player 2 Wins")
 		break
 	elif game.check_winner() == 1:
-		print("Player 1 Wins")
+		print(game)
+		print("\nPlayer 1 Wins")
 		break
 	elif game.game_ended():
+		print(game)
 		print("Deu véia :D KKKKKKK")
 		break
 	
@@ -40,8 +48,10 @@ while(True):
 					break
 		print()
 	else:
-		# AI will play here
-		ai_coord = game.get_minimax_coord()
+		# Get ai position
+		ai_coord = game.get_minimax_coord(debug=True, deep=3)
+
+		# Set position
 		game.play_x(ai_coord[0], ai_coord[1])
 
 		print("--- IA vai jogar ---")
